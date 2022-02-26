@@ -90,7 +90,7 @@ const UserNameForm = ({}) => {
     debounce(async (userName) => {
       if (userName.length >= 3) {
         // let col = collection(firestore, `userName`, userName, 'userId');
-        const userNameDocRef = doc(firestore, 'userName', userName);
+        const userNameDocRef = doc(firestore, 'userNames', userName);
         // onSnapshot(doc(firestore, 'userName', userName), (snapshot) => {
         //   console.log('username loaded', snapshot.data());
         // });
