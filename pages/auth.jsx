@@ -89,11 +89,8 @@ const UserNameForm = ({}) => {
   const checkUserName = useCallback(
     debounce(async (userName) => {
       if (userName.length >= 3) {
-        // let col = collection(firestore, `userName`, userName, 'userId');
         const userNameDocRef = doc(firestore, 'userNames', userName);
-        // onSnapshot(doc(firestore, 'userName', userName), (snapshot) => {
-        //   console.log('username loaded', snapshot.data());
-        // });
+
         const document = await getDoc(userNameDocRef);
         setIsValid(!document.exists());
         setLoading(false);
@@ -106,8 +103,6 @@ const UserNameForm = ({}) => {
     try {
       e.preventDefault();
 
-      // const userDoc = doc(firestore, `users/${user.uid}`);
-      // const userNameDoc = doc(firestore, `userNames/${formValue}`);
       const userDoc = doc(firestore, 'users', user.uid);
       const userNameDoc = doc(firestore, 'userNames', formValue);
 

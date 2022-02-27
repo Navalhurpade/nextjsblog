@@ -1,33 +1,31 @@
 import React from 'react';
-import {
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  addDoc,
-  getDocs,
-  query,
-  collectionGroup,
-  DocumentReference,
-  where,
-} from 'firebase/firestore';
+import { collection, getDocs, doc, query, collectionGroup, where } from 'firebase/firestore';
 import { firestore } from '../../lib/firebase';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getUserByUsername, postToJSON } from '../../lib/dbInteraction';
+import styles from './../../styles/Post.module.css';
+import PostContent from '../../components/PostContent';
+import Metatags from './../../components/Metadata';
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
   const userDoc = await getUserByUsername(username);
-  let post;
-  let path;
+  let post = null;
+  let path = null;
+
+  if (!userDoc) {
+    return {
+      notFound: true,
+    };
+  }
 
   if (userDoc) {
     const postRef = collection(userDoc.ref, `/posts`);
     const postQuery = query(postRef, where('slug', '==', slug));
-
-    post = postToJSON((await getDocs(postQuery)).docs[0]);
-    path = postRef.path;
+    const postDoc = (await getDocs(postQuery)).docs[0];
+    post = postToJSON(postDoc);
+    path = postDoc.ref.path;
   }
-
   return {
     props: {
       post,
@@ -62,8 +60,27 @@ export async function getStaticPaths() {
   };
 }
 
-const PostDetailed = ({ post, path }) => {
-  return <div>sd</div>;
+const Post = (props) => {
+  const docRef = doc(firestore, props.path);
+  const [realTimePost] = useDocumentData(query(docRef));
+  let post = realTimePost || props.post;
+
+  return (
+    <>
+      <Metatags title={post.title} />
+      <main className={styles.container}>
+        <section>
+          <PostContent post={post} />
+        </section>
+
+        <aside className="card">
+          <p>
+            <strong> {post.heartCount || 0}❤️ </strong>
+          </p>
+        </aside>
+      </main>
+    </>
+  );
 };
 
-export default PostDetailed;
+export default Post;

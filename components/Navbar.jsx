@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import AuthContext from '../lib/authContext';
+import { logOut } from '../lib/firebase';
 
 function Navbar(props) {
   const { user, userName } = useContext(AuthContext);
@@ -24,6 +25,9 @@ function Navbar(props) {
               <Link href={`/${userName}`}>
                 <img src={`${user?.photoURL}`} alt="user-img" />
               </Link>
+            </li>
+            <li>
+              <button onClick={(a) => logOut()}>Log Out</button>
             </li>
           </>
         )}
