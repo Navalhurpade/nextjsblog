@@ -10,6 +10,7 @@ import AuthContext from '../../lib/AuthContext';
 import style from './../../styles/Admin.module.css';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import ImageUploder from '../../components/ImageUploder';
 
 function AdminPostEdit(props) {
   return (
@@ -35,6 +36,7 @@ const PostManeger = ({}) => {
           <section>
             <h1>{post.title}</h1>
             <p> ID: {post.slug}</p>
+            <ImageUploder></ImageUploder>
             <PostForm postRef={postDocRef} defaultValues={post} isPreview={isPreview} />
           </section>
           <aside>
