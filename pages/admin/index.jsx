@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import AuthCheck from '../../components/AuthCheck';
-import PostItem from './../../components/PostItem';
 import { getUserPosts } from '../../lib/dbInteraction';
-import AuthContext from '../../lib/AuthContext';
-import kebabCase from 'lodash.kebabcase';
-import style from './../../styles/Admin.module.css';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { firestore } from '../../lib/firebase';
-import { route } from 'next/dist/server/router';
+import Router from 'next/router';
+import kebabCase from 'lodash.kebabcase';
 import toast from 'react-hot-toast';
+
+import AuthContext from '../../lib/AuthContext';
+import AuthCheck from '../../components/AuthCheck';
+import PostItem from './../../components/PostItem';
+import style from './../../styles/Admin.module.css';
 
 function Admin(props) {
   return (
@@ -64,7 +65,7 @@ const CreatePost = ({}) => {
 
     await setDoc(newPostRef, data);
     toast.success('Post created !');
-    route(`/admin/${slug}`);
+    Router.push(`/admin/${slug}`);
   };
 
   return (
