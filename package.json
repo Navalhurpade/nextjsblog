@@ -1,6 +1,7 @@
 {
   "name": "nextjsblog",
   "private": true,
+  "author": "naval hurpade",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,12 +10,13 @@
   },
   "dependencies": {
     "firebase": "^9.6.6",
-    "lodash": "^4.17.21",
+    "lodash.kebabcase": "^4.1.1",
     "markdown-to-jsx": "^7.1.6",
     "next": "12.0.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-firebase-hooks": "^5.0.3",
+    "react-hook-form": "^7.27.1",
     "react-hot-toast": "^2.2.0",
     "react-markdown": "^8.0.0"
   },

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useContext } from 'react';
-import AuthContext from '../lib/authContext';
+import AuthContext from '../lib/AuthContext';
 import { logOut } from '../lib/firebase';
 
 function Navbar(props) {

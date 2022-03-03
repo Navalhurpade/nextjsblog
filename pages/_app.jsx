@@ -1,6 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 import Navbar from '../components/Navbar';
-import AuthContext from '../lib/authContext';
+import AuthContext from '../lib/AuthContext';
 import useUserData from '../lib/hooks/useUserData';
 import '../styles/globals.css';
 
@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <AuthContext.Provider value={userData}>
         <Navbar />
+        <Toaster />
         <Component {...pageProps} />
         <Toaster />
       </AuthContext.Provider>

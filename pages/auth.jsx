@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { logInWithGoogle as logInWithGoogleFirebase, logOut } from '../lib/firebase';
-import AuthContext from '../lib/authContext';
+import AuthContext from '../lib/AuthContext';
 import debounce from 'lodash/debounce';
 import { firestore } from '../lib/firebase';
-import { collection, doc, getDoc, setDoc, addDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 function auth(props) {
   const { user, userName, setUserName } = useContext(AuthContext);
