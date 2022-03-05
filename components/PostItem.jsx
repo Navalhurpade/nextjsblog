@@ -11,7 +11,7 @@ function PostItem({ post, linkToAdmin }) {
     <div className="card">
       <Link href={`/${post.userName}`}>
         <a>
-          <strong>By @{post.userName}</strong>
+          By <strong> @{post.userName} </strong>
         </a>
       </Link>
 

@@ -3,6 +3,7 @@ import { doc, getDoc, increment, writeBatch } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { firestore } from '../lib/firebase';
 import AuthContext from '../lib/AuthContext';
+import Heart from './Heart';
 
 function HeartButton({ post }) {
   const { user } = useContext(AuthContext);
@@ -12,8 +13,7 @@ function HeartButton({ post }) {
 
   useEffect(async () => {
     const isHearted = (await getDoc(heartRef)).exists();
-    if (isHearted) setHeart(true);
-    else setHeart(false);
+    isHearted ? setHeart(true) : setHeart(false);
   }, [post]);
 
   const removeHeart = async () => {
@@ -32,7 +32,14 @@ function HeartButton({ post }) {
     await batch.commit();
   };
 
-  return heart ? <button onClick={removeHeart}>❤️ Remove heart</button> : <button onClick={heartPost}>💗 Heart</button>;
+  return (
+    <Heart
+      liked={heart}
+      onClick={() => {
+        heart ? removeHeart() : heartPost();
+      }}
+    />
+  );
 }
 
 export default HeartButton;

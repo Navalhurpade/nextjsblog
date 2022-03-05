@@ -1,7 +1,4 @@
-import { async } from '@firebase/util';
 import { collectionGroup, getDocs, limit, orderBy, query, where, startAt, Timestamp } from 'firebase/firestore';
-import Head from 'next/head';
-import Image from 'next/image';
 import { postToJSON } from '../lib/dbInteraction';
 import { firestore } from '../lib/firebase';
 import styles from '../styles/Home.module.css';
@@ -60,7 +57,7 @@ export default function Home({ initialPosts }) {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Postfeed posts={posts} />
       {!reachedToEnd && <button onClick={getMorePosts}>Load more</button>}
       <Loader show={loading} />

@@ -77,7 +77,7 @@ const Post = (props) => {
 
         <aside className="card">
           <p>
-            <strong> {post.heartCount || 0}❤️ </strong>
+            <strong> {post.heartCount || 0} likes </strong>
             <AuthCheck>
               <HeartButton post={post} postRef={docRef} uid={post.uid} />
             </AuthCheck>

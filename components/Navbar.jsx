@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import AuthContext from '../lib/AuthContext';
@@ -22,13 +21,15 @@ function Navbar(props) {
                 <button>Write Posts</button>
               </Link>
             </li>
+            {user && (
+              <li>
+                <Link href={`/${userName}`}>
+                  <img src={`${user?.photoURL}`} alt="user-img" />
+                </Link>
+              </li>
+            )}
             <li>
-              <Link href={`/${userName}`}>
-                <img src={`${user?.photoURL}`} alt="user-img" />
-              </Link>
-            </li>
-            <li>
-              <button onClick={(a) => logOut()}>Log Out</button>
+              <button onClick={() => logOut()}>Log Out</button>
             </li>
           </>
         )}

@@ -22,7 +22,7 @@ function Admin(props) {
   );
 }
 
-function PostList({}) {
+function PostList() {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
 
@@ -31,13 +31,15 @@ function PostList({}) {
     if (posts.length) setPosts(posts);
   }, []);
 
-  return (
+  return posts.length ? (
     <div>
       Manage your posts
       {posts.map((post) => (
         <PostItem post={post} key={post.slug} linkToAdmin></PostItem>
       ))}
     </div>
+  ) : (
+    <></>
   );
 }
 
@@ -69,7 +71,8 @@ const CreatePost = ({}) => {
 
   return (
     <form onSubmit={createNewPost}>
-      <input className={style.input} onChange={(e) => setTitle(e.target.value)} value={title}></input>
+      <label htmlFor="newPostTitle">Create new post</label>
+      <input id="newPostTitle" className={style.input} onChange={(e) => setTitle(e.target.value)} value={title}></input>
       <p>
         <strong>slug: </strong>
         {slug}

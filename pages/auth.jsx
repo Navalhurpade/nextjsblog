@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 import { firestore } from '../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import Router from 'next/router';
+import Loader from '../components/Loader';
 
 function auth(props) {
   const { user, userName, setUserName } = useContext(AuthContext);
@@ -29,17 +30,18 @@ function auth(props) {
 const SingInButton = () => {
   const logInWithGoogle = async () => {
     try {
-      let authDetails = await logInWithGoogleFirebase();
-      console.log(authDetails);
+      await logInWithGoogleFirebase();
     } catch (error) {
       console.log('Error Ocured ', error);
     }
   };
   return (
-    <button onClick={logInWithGoogle} className="btn-google">
-      <img src="google-logo.png"></img>
-      sign in
-    </button>
+    <main>
+      <button onClick={logInWithGoogle} className="btn-google">
+        <img src="google-logo.png"></img>
+        sign in
+      </button>
+    </main>
   );
 };
 
@@ -114,10 +116,8 @@ const UserNameForm = ({}) => {
         userId: user.uid,
       };
 
-      let d = await setDoc(userDoc, newUser);
-      let c = await setDoc(userNameDoc, newUserName);
-
-      console.log('saved ', d, c);
+      await setDoc(userDoc, newUser);
+      await setDoc(userNameDoc, newUserName);
     } catch (error) {
       console.log('Error while saving', error);
     }
@@ -125,25 +125,27 @@ const UserNameForm = ({}) => {
 
   return (
     !userName && (
-      <section>
+      <main>
         <h3>Choose a User Name</h3>
         <form onSubmit={onSubmit}>
           <input autoComplete="off" type="text" name="userName" onChange={onChange} value={formValue} />
-
+          {isValid && formValue ? (
+            <span className="text-success">Congratulations username is available.. 🤩🤩🤩🤩 </span>
+          ) : (
+            <span className="text-danger">Sorry username is already taken 😫😫</span>
+          )}
           <button type="submit" className="btn-green" disabled={loading || !isValid}>
             Choose
           </button>
         </form>
-
+        <Loader show={loading} />
         <h3>Debug State</h3>
         <div>
           isValid: {isValid.toString()}
           <br />
-          loding: {loading.toString()}
-          <br />
           Username: {formValue}
         </div>
-      </section>
+      </main>
     )
   );
 };
