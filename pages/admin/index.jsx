@@ -22,21 +22,20 @@ function Admin(props) {
   );
 }
 
-function PostList(props) {
-  const { userName, user } = useContext(AuthContext);
+function PostList({}) {
+  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(async () => {
-    const posts = await getUserPosts(user.uid);
-    // console.log('POSTS', posts);
-    setPosts(posts);
+    const posts = await getUserPosts(user.uid, false);
+    if (posts.length) setPosts(posts);
   }, []);
 
   return (
     <div>
       Manage your posts
       {posts.map((post) => (
-        <PostItem post={post} key={post.slug} admin></PostItem>
+        <PostItem post={post} key={post.slug} linkToAdmin></PostItem>
       ))}
     </div>
   );
@@ -52,18 +51,18 @@ const CreatePost = ({}) => {
   const createNewPost = async (e) => {
     e.preventDefault();
     const newPostRef = doc(firestore, `users/${user.uid}/posts/${slug}`);
-    const data = {
+    const newPost = {
       title,
       slug,
       uid: user.uid,
       userName,
       content: '# Hello word!',
-      createAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       heartCount: 0,
     };
 
-    await setDoc(newPostRef, data);
+    await setDoc(newPostRef, newPost);
     toast.success('Post created !');
     Router.push(`/admin/${slug}`);
   };

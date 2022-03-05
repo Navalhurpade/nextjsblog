@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { logInWithGoogle as logInWithGoogleFirebase, logOut } from '../lib/firebase';
 import AuthContext from '../lib/AuthContext';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import { firestore } from '../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import Router from 'next/router';
 
 function auth(props) {
   const { user, userName, setUserName } = useContext(AuthContext);
 
-  const createUserName = (data) => {
-    console.log(data);
-  };
+  user && userName && Router.replace(`/${userName}`);
 
   return (
     <div>
@@ -18,7 +17,7 @@ function auth(props) {
         userName ? (
           <SignOutButton setUserName={setUserName} />
         ) : (
-          <UserNameForm user={user} userName={userName} onSubmit={createUserName} />
+          <UserNameForm user={user} userName={userName} />
         )
       ) : (
         <SingInButton />
@@ -129,7 +128,7 @@ const UserNameForm = ({}) => {
       <section>
         <h3>Choose a User Name</h3>
         <form onSubmit={onSubmit}>
-          <input autocomplete="off" type="text" name="userName" onChange={onChange} value={formValue} />
+          <input autoComplete="off" type="text" name="userName" onChange={onChange} value={formValue} />
 
           <button type="submit" className="btn-green" disabled={loading || !isValid}>
             Choose

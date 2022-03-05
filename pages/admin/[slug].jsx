@@ -22,7 +22,7 @@ function AdminPostEdit(props) {
 
 const PostManeger = ({}) => {
   const [isPreview, setIsPreview] = useState(false);
-  const { user, userName } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const { slug } = useRouter().query;
   const postDocRef = doc(firestore, `users/${user.uid}/posts/${slug}`);
@@ -30,13 +30,13 @@ const PostManeger = ({}) => {
   const [post] = useDocumentDataOnce(postDocRef);
   console.log(post);
   return (
-    <main>
+    <main className={style.container}>
       {post && (
         <>
           <section>
+            <ImageUploder></ImageUploder>
             <h1>{post.title}</h1>
             <p> ID: {post.slug}</p>
-            <ImageUploder></ImageUploder>
             <PostForm postRef={postDocRef} defaultValues={post} isPreview={isPreview} />
           </section>
           <aside>
@@ -72,41 +72,44 @@ const PostForm = ({ postRef, defaultValues, isPreview }) => {
 
   return (
     <form onSubmit={handleSubmit(editPost)}>
-      {isPreview && <ReactMarkdown>{watch('content')}</ReactMarkdown>}
-      <div className={style.controls}>
-        <textarea
-          name="content"
-          {...register('content', {
-            minLength: {
-              value: 20,
-              message: 'Content is too short.',
-            },
-            maxLength: {
-              value: 20000,
-              message: 'Content is too long.',
-            },
-            required: {
-              value: true,
-              message: 'Content is required.',
-            },
-          })}
-        ></textarea>
-        {!isValid && isDirty && errors.content && <p className="text-danger">{errors.content.message}</p>}
-        <fieldset>
-          <input
-            type="checkbox"
-            name="published"
-            id="published"
-            className={style.checkbox}
-            {...register('published')}
-          />
-          <label htmlFor="published">Published</label>
-        </fieldset>
+      {isPreview ? (
+        <ReactMarkdown>{watch('content')}</ReactMarkdown>
+      ) : (
+        <div className={style.controls}>
+          <textarea
+            name="content"
+            {...register('content', {
+              minLength: {
+                value: 20,
+                message: 'Content is too short.',
+              },
+              maxLength: {
+                value: 20000,
+                message: 'Content is too long.',
+              },
+              required: {
+                value: true,
+                message: 'Content is required.',
+              },
+            })}
+          ></textarea>
+          {!isValid && isDirty && errors.content && <p className="text-danger">{errors.content.message}</p>}
+          <fieldset>
+            <input
+              type="checkbox"
+              name="published"
+              id="published"
+              className={style.checkbox}
+              {...register('published')}
+            />
+            <label htmlFor="published">Published</label>
+          </fieldset>
 
-        <button disabled={!isValid && isDirty} type="submit" className="btn-green">
-          Save changes
-        </button>
-      </div>
+          <button disabled={!isValid && isDirty} type="submit" className="btn-green">
+            Save changes
+          </button>
+        </div>
+      )}
     </form>
   );
 };

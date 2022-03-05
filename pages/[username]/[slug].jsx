@@ -6,6 +6,8 @@ import { getUserByUsername, postToJSON } from '../../lib/dbInteraction';
 import styles from './../../styles/Post.module.css';
 import PostContent from '../../components/PostContent';
 import Metatags from './../../components/Metadata';
+import HeartButton from '../../components/HeartButton';
+import AuthCheck from '../../components/AuthCheck';
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -76,6 +78,9 @@ const Post = (props) => {
         <aside className="card">
           <p>
             <strong> {post.heartCount || 0}❤️ </strong>
+            <AuthCheck>
+              <HeartButton post={post} postRef={docRef} uid={post.uid} />
+            </AuthCheck>
           </p>
         </aside>
       </main>

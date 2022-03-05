@@ -16,6 +16,7 @@ export async function getServerSideProps() {
     let postQuery = query(collRef);
 
     let initialPosts = (await getDocs(postQuery)).docs.map(postToJSON);
+
     return {
       props: {
         initialPosts,

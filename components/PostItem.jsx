@@ -1,20 +1,21 @@
 import Link from 'next/link';
 import React from 'react';
+import AuthCheck from './AuthCheck';
 
-function PostItem({ post, admin }) {
+function PostItem({ post, linkToAdmin }) {
   //native methad to calc word count and read timestamp
   const wordCount = post?.content.trim().split(/\s+/g).length;
   const minutesToRead = (wordCount / 100 + 1).toFixed(0);
 
   return (
     <div className="card">
-      <Link href={`/${post.userName}/${post.slug}`}>
+      <Link href={`/${post.userName}`}>
         <a>
           <strong>By @{post.userName}</strong>
         </a>
       </Link>
 
-      <Link href={`/${post.userName}/${post.slug}`}>
+      <Link href={linkToAdmin ? `admin/${post.slug}` : `/${post.userName}/${post.slug}`}>
         <h2>
           <a>{post.title}</a>
         </h2>

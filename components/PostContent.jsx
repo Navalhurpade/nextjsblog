@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
-import ReactMarkdown from 'markdown-to-jsx';
-// import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'markdown-to-jsx';
+import ReactMarkdown from 'react-markdown';
 
 function PostContent({ post }) {
-  const createdAt = typeof post?.createdAt === 'number' ? new Date(post.createdAt) : post.createdAt.toDate();
+  console.log('data is::', post, typeof post.createdAt, post.createdAt);
+  const createdAt = typeof post?.createdAt === 'number' ? new Date(post.createdAt) : post.createdAt?.toDate();
   return (
     <div className="card">
       <h1>{post?.title}</h1>
@@ -15,8 +16,6 @@ function PostContent({ post }) {
         </Link>
         on {createdAt.toISOString()}
       </span>
-      {/* {post.content} */}
-      {/* <Markdown>{post?.content} </Markdown> */}
       <ReactMarkdown>{post?.content}</ReactMarkdown>
     </div>
   );
