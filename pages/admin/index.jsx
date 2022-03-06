@@ -71,7 +71,9 @@ const CreatePost = ({}) => {
 
   return (
     <form onSubmit={createNewPost}>
-      <label htmlFor="newPostTitle">Create new post</label>
+      <label className="text" htmlFor="newPostTitle">
+        Select title
+      </label>
       <input id="newPostTitle" className={style.input} onChange={(e) => setTitle(e.target.value)} value={title}></input>
       <p>
         <strong>slug: </strong>

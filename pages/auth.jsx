@@ -130,7 +130,7 @@ const UserNameForm = ({}) => {
         <form onSubmit={onSubmit}>
           <input autoComplete="off" type="text" name="userName" onChange={onChange} value={formValue} />
           {isValid && formValue ? (
-            <span className="text-success">Congratulations username is available.. 🤩🤩🤩🤩 </span>
+            <span className="text-success ">Congratulations username is available.. 🤩🤩🤩🤩 </span>
           ) : (
             <span className="text-danger">Sorry username is already taken 😫😫</span>
           )}
