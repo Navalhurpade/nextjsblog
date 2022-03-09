@@ -7,8 +7,8 @@ function Navbar(props) {
   const { user, userName } = useContext(AuthContext);
 
   return (
-    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-3 rounded dark:bg-gray-800 shadow-sm mb-5">
-      <div class="container flex flex-wrap justify-between items-center mx-auto">
+    <nav class="bg-white border-gray-200 rounded dark:bg-gray-800 shadow-sm mb-5">
+      <div class="container flex flex-wrap justify-between  px-5 sm:px-5 py-4 items-center mx-auto">
         <a href="/" class="flex items-center">
           <img
             className="block lg:hidden h-8 w-auto mr-1"
