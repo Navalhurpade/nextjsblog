@@ -1,91 +1,108 @@
-import Link from 'next/link';
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import AuthContext from '../lib/AuthContext';
 import { logOut } from '../lib/firebase';
+import Link from 'next/link';
 
 function Navbar(props) {
+  const [active, setActive] = useState(false);
   const { user, userName } = useContext(AuthContext);
 
   return (
-    <nav class="bg-white border-gray-200 rounded dark:bg-gray-800 shadow-sm mb-5">
-      <div class="container flex flex-wrap justify-between  px-5 sm:px-5 py-4 items-center mx-auto">
-        <a href="/" class="flex items-center">
-          <img
-            className="block lg:hidden h-8 w-auto mr-1"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-            alt="Workflow"
-          />
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
-        <button
-          data-collapse-toggle="mobile-menu"
-          type="button"
-          class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="mobile-menu-2"
-          aria-expanded="false"
-        >
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path
-              fill-rule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path
-              fill-rule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </button>
-        <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
-          <ul class="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-            <li>
-              <a className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white">
-                <Link href="/" aria-current="page">
-                  Feed
-                </Link>
-              </a>
-            </li>
-            {user && userName && (
-              <li>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                  <Link href="/admin">Write post</Link>
-                </a>
-              </li>
-            )}
-            {user && (
-              <>
-                <li>
-                  <Link href="/">
-                    <a className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                      <span className="cursor-pointer" onClick={() => logOut()}>
-                        Logout
-                      </span>
-                    </a>
-                  </Link>
-                </li>
-                <li className="ml-auto">
-                  <Link href={`/${userName}`}>
-                    <img src={`${user?.photoURL}`} alt="user-img" className="rounded-full w-12" />
-                  </Link>
-                </li>
-              </>
-            )}
-            {!userName && (
-              <li>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                  <Link href="/auth">Login</Link>
-                </a>
-              </li>
-            )}
-          </ul>
+    <nav
+      onBlur={() => {
+        setActive(false);
+      }}
+      className="bg-white w-screen h-20 px-10 py-4 mb-10 flex flex-row justify-between items-center border-b-2 border-cyan-500"
+    >
+      <span className="text-slate-900 font-sans font-bold text-3xl cursor-pointer">
+        <Link href={'/'}>Brand </Link>
+      </span>
+      <MenuItems />
+      {user && (
+        <div>
+          <img className="rounded-full h-12 mobile:hidden transition-all" src={`${user?.photoURL}`} alt="profile-img" />
         </div>
+      )}
+      <div className="group transition-all laptop:hidden :desktop:hidden" onClick={() => setActive(!active)}>
+        <span
+          className={`block transition-all duration-300 group-hover:group-even:bg-cyan-600 group-hover:group-even:translate-y-2 group-hover:group-even:rotate-45  z-10  bg-slate-800 w-8 h-1 rounded-xl ${
+            active ? 'translate-y-2 bg-cyan-600 rotate-45' : ''
+          }`}
+        ></span>
+        <span
+          className={`block transition-all duration-300 group-hover:group-even:bg-cyan-600 group-hover:group-even:translate-x-8  group-hover:group-even:opacity-0 z-20 bg-slate-800 w-8 h-1 rounded-xl my-1 ${
+            active ? 'opacity-0' : ''
+          }`}
+        ></span>
+        <span
+          className={`block transition-all duration-300 group-hover:group-even:bg-cyan-500 group-hover:group-even:-translate-y-2 group-hover:group-even:-rotate-45  z-30 bg-slate-800 w-8 h-1 rounded-xl ${
+            active ? '-translate-y-2 bg-cyan-600 -rotate-45' : ''
+          }`}
+        ></span>
+      </div>
+      <div
+        className={`${
+          !active ? 'h-0' : 'h-44 shadow-lg'
+        } z-40 pt-3 transition-all w-screen left-0 px-10  bg-white absolute top-16`}
+      >
+        {active && <MenuItems vertical />}
+        {active && (
+          <Link href={`/${userName}`}>
+            <img
+              className="z-40 absolute right-10 bottom-6  rounded-full h-12 my-1 transition-all"
+              src={`${user?.photoURL}`}
+              alt="profile-img"
+            />
+          </Link>
+        )}
       </div>
     </nav>
   );
 }
+
+const MenuItems = ({ vertical = false }) => {
+  const { user, userName } = useContext(AuthContext);
+
+  return (
+    <ul
+      className={`flex ${
+        vertical ? 'flex-col h-36 mt-auto justify-around' : 'flex-row mobile:hidden justify-around'
+      } relative z-50 font-sans laptop:w-1/2  transition-all`}
+    >
+      <li className="flex flex-row items-center transition-all ">
+        <img src="content.png" className=" text-sm h-4 block pr-1" alt="login-png" />
+        <Link href={'/'}>
+          <a className="block text-lg font-semibold hover:text-cyan-700 ">Feed</a>
+        </Link>
+      </li>
+      {user && userName && (
+        <li className="flex flex-row items-center  transition-all ">
+          <img src="write3.png" className=" text-sm h-4 block pr-1" alt="login-png" />
+          <Link href="/admin">
+            <a className="text-lg font-semibold hover:text-cyan-700 ">Write post</a>
+          </Link>
+        </li>
+      )}
+      {user && (
+        <li className="flex flex-row items-center  transition-all ">
+          <img src="logout.png" className=" text-sm h-4 block pr-1" alt="login-png" />
+          <Link href={'/'}>
+            <a onClick={() => logOut()} className="text-lg font-semibold hover:text-cyan-700 ">
+              Logout
+            </a>
+          </Link>
+        </li>
+      )}
+      {!userName && (
+        <li className="flex flex-row items-center  transition-all ">
+          <img src="login.png" className=" text-sm h-4 block pr-1" alt="login-png" />
+          <Link href={'/auth'}>
+            <a className="text-lg font-semibold hover:text-cyan-700 ">Login</a>
+          </Link>
+        </li>
+      )}
+    </ul>
+  );
+};
 
 export default Navbar;

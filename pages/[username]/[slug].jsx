@@ -21,12 +21,13 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  if (userDoc) {
+  if (userDoc?.data()) {
     const postRef = collection(userDoc.ref, `/posts`);
     const postQuery = query(postRef, where('slug', '==', slug));
-    const postDoc = (await getDocs(postQuery)).docs[0];
-    post = postToJSON(postDoc);
-    path = postDoc.ref.path;
+    const postDocs = (await getDocs(postQuery)).docs;
+    post = postDocs.map(postToJSON);
+    console.log('IS undeined', postDocs[0]?.data(), userDoc.data());
+    path = postDocs.length ? postDocs[0].ref.path : '';
   }
   return {
     props: {
@@ -65,6 +66,7 @@ export async function getStaticPaths() {
 const Post = (props) => {
   const docRef = doc(firestore, props.path);
   const [realTimePost] = useDocumentData(query(docRef));
+
   let post = realTimePost || props.post;
 
   return (

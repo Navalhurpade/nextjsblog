@@ -14,7 +14,7 @@ function PostContent({ post }) {
         <Link href={`/${post.userName}`}>
           <a className="text-info"> @{post.userName} </a>
         </Link>
-        on {createdAt.toDateString()}
+        on {createdAt?.toDateString()}
       </span>
       <ReactMarkdown>{post?.content}</ReactMarkdown>
     </div>
