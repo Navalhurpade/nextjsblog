@@ -4,7 +4,7 @@ function Navbar(props) {
   const [active, setActive] = useState(false);
 
   return (
-    <nav className="bg-white w-screen px-10 py-4 flex flex-row justify-between items-center border-b-2 border-cyan-500">
+    <nav className="bg-white w-screen h-20 px-10 py-4 flex flex-row justify-between items-center border-b-2 border-cyan-500">
       <span className="text-slate-900 font-sans font-bold text-3xl">Brand</span>
       <MenuItems />
       <div>
@@ -33,8 +33,8 @@ function Navbar(props) {
       </div>
       <div
         className={`${
-          !active ? 'h-0' : 'h-44'
-        } z-40 pt-3 transition-all w-screen left-0 px-10 shadow-lg bg-white absolute top-16`}
+          !active ? 'h-0' : 'h-44 shadow-lg'
+        } z-40 pt-3 transition-all w-screen left-0 px-10  bg-white absolute top-16`}
       >
         {active && <MenuItems vertical />}
         {active && (
